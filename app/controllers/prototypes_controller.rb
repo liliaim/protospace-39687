@@ -32,12 +32,12 @@ class PrototypesController < ApplicationController
 
   end
   def update
-    prototype = Prototype.find(params[:id])
+    @prototype = Prototype.find(params[:id])
 
-    if  prototype.update!(prototype_params)
-      redirect_to prototype_path(prototype.id)
+    if @prototype.update(prototype_params)
+      redirect_to prototype_path(@prototype.id)
     else
-      render :edit, status: :unprocessable_entity
+      render :_form, status: :unprocessable_entity, locals: { prototype: @prototype }
     end
 
   end
@@ -55,7 +55,7 @@ class PrototypesController < ApplicationController
   end
   def move_to_index
     unless user_signed_in?
-      redirect_to action: :index
+      redirect_to new_user_session_path
     end
   end
 
